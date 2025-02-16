@@ -1,37 +1,47 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const noButton = document.getElementById("noButton");
-    const yesButton = document.getElementById("yesButton");
-    const formContainer = document.getElementById("formContainer");
-    const thankYou = document.getElementById("thankYou");
-    const submitButton = document.getElementById("submit");
+body {
+    background: linear-gradient(to bottom, #8B4513, #4B0082);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
 
-    noButton.addEventListener("mouseover", () => {
-        let newX = Math.random() * (window.innerWidth - 100);
-        let newY = Math.random() * (window.innerHeight - 50);
-        noButton.style.transform = `translate(${newX}px, ${newY}px)`;
-        noButton.style.fontSize = "smaller";
-    });
+.container, .form-container, .thank-you {
+    margin-top: 50px;
+}
 
-    yesButton.addEventListener("click", () => {
-        formContainer.style.display = "block";
-        yesButton.style.display = "none";
-        noButton.style.display = "none";
-    });
+.gif-container img {
+    max-width: 100%;
+    height: auto;
+}
 
-    submitButton.addEventListener("click", () => {
-        const date = document.getElementById("date").value;
-        const time = document.getElementById("time").value;
-        const preferences = document.getElementById("preferences").value;
+.buttons button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
 
-        const data = { date, time, preferences };
-        
-        fetch("/save", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+#noButton {
+    position: absolute;
+}
 
-        formContainer.style.display = "none";
-        thankYou.style.display = "block";
-    });
-});
+.hearts {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.thanks-text {
+    font-size: 24px;
+    animation: fadeUp 3s ease-in-out;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
