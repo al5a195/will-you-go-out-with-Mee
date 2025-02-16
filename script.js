@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const noButton = document.getElementById("noButton");
     const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
     const formContainer = document.getElementById("formContainer");
     const thankYou = document.getElementById("thankYou");
     const submitButton = document.getElementById("submit");
+    const responseContainer = document.getElementById("responseContainer");
+    const saveButton = document.getElementById("saveButton");
 
     noButton.addEventListener("mouseover", () => {
         let newX = Math.random() * (window.innerWidth - 100);
@@ -23,15 +25,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const time = document.getElementById("time").value;
         const preferences = document.getElementById("preferences").value;
 
-        const data = { date, time, preferences };
-        
-        fetch("/save", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+        if (!date || !time || !preferences) {
+            alert("Please fill in all the details!");
+            return;
+        }
 
         formContainer.style.display = "none";
         thankYou.style.display = "block";
+
+        // Show the answers on the final page
+        responseContainer.innerHTML = `
+            <h3>Your Response:</h3>
+            <p><strong>Date:</strong> ${date}</p>
+            <p><strong>Time:</strong> ${time}</p>
+            <p><strong>Preferences:</strong> ${preferences}</p>
+        `;
+
+        saveButton.style.display = "block";
+    });
+
+    saveButton.addEventListener("click", () => {
+        const textToCopy = responseContainer.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Response copied! You can now save it.");
+        });
     });
 });
